@@ -180,9 +180,12 @@ void Bitcrusher1AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
                     //Reset avg variable
                     avg = 0.0f;
                 }
+                //Account for the last samples left in buffer   
                 else if(samp + downsampAmount > buffer.getNumSamples())
                 {
+                    avg /= buffer.getNumSamples() - samp;
                     for(int i = samp; i < buffer.getNumSamples(); i++)
+                        buffer.setSample(channel, i, avg);
                         
                 }
                 else
